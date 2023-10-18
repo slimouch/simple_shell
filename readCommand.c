@@ -6,13 +6,11 @@
  */
 void readCommand(const char *programName)
 {
-	char *bf;
-	size_t sizeBF;
+	char *bf = NULL;
+	size_t sizeBF = 0;
 	ssize_t NbCh;
 	char **argC = NULL;
 
-	bf = NULL;
-	sizeBF = 0;
 	while (1)
 	{
 		write(1, "$ ", 2);
