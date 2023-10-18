@@ -14,7 +14,7 @@ void processCmd(const char *programName, char *cmd, int interactive)
 	{
 		handleExit(argC);
 		free(cmd);
-		exit(137);
+		exit(0);
 	}
 	else
 		forkAndExecute(argC, programName);
