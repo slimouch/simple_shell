@@ -7,7 +7,9 @@
  */
 int main(int ac, char *argv[])
 {
+	int interactive = isatty(STDIN_FILENO);
 	(void)ac;
-	readCommand(argv[0]);
+
+	readCommand(argv[0], interactive);
 	return (0);
 }

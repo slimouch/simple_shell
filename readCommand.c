@@ -2,9 +2,10 @@
 /**
  * readCommand - reads the input
  * @programName: the program name
+ * @interactive: interactive mode
  * Return: void
  */
-void readCommand(const char *programName)
+void readCommand(const char *programName, int interactive)
 {
 	char *bf = NULL;
 	size_t sizeBF = 0;
@@ -15,33 +16,26 @@ void readCommand(const char *programName)
 	{
 		write(1, "$ ", 2);
 		NbCh = getline(&bf, &sizeBF, stdin);
-		if (NbCh <= 1)
+		if (NbCh == -1)
 		{
-			if (NbCh == -1)
+			if (NbCh == EOF)
 			{
-				if (NbCh == EOF && isatty(STDIN_FILENO))
-				{
+				if (interactive)
 					write(1, "\n", 1);
-					break;
-				}
+				break;
+			}
+			else
+			{
 				perror("getline error");
 				free(bf);
 				freeTok(argC);
 				exit(EXIT_FAILURE);
 			}
+		}
+		if (NbCh <= 1)
 			continue;
-		}
 		bf[NbCh - 1] = '\0';
-		argC = separatrices(bf);
-		if (mystrCmp(argC[0], "exit") == 0)
-		{
-			handleExit(argC);
-			free(bf);
-			exit(0);
-		}
-		else
-			forkAndExecute(argC, programName);
-		freeTok(argC);
+		processCmd(programName, bf, interactive);
 	}
 	free(bf);
 	bf = NULL;

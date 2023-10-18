@@ -25,6 +25,7 @@ char *Which(char *cmd)
 	mystrCpy(FULLp, path);
 	mystrCat(FULLp, "/");
 	mystrCat(FULLp, cmd);
+	FULLp[myStrlen(FULLp)] = '\0';
 	if (stat(FULLp, &st) == 0)
 	{
 		free(tmp);
