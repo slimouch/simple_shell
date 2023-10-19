@@ -5,7 +5,7 @@
  * @interactive: interactive mode
  * Return: void
  */
-void readCommand(const char *programName, int interactive)
+void readCommand(char *programName, int interactive)
 {
 	char *bf = NULL;
 	size_t sizeBF = 0;

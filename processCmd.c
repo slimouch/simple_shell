@@ -6,7 +6,7 @@
  * @interactive: mode interactive
  * Return: void
  */
-void processCmd(const char *programName, char *cmd, int interactive)
+void processCmd(char *programName, char *cmd, int interactive)
 {
 	char **argC = separatrices(cmd);
 

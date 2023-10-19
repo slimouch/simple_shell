@@ -5,7 +5,7 @@
  * @programName: the program name
  * Return: void
  */
-void forkAndExecute(char **argC, const char *programName)
+void forkAndExecute(char **argC, char *programName)
 {
 	int status;
 	pid_t pid = fork();
