@@ -7,9 +7,10 @@
  */
 int main(int ac, char *argv[])
 {
+	int LExitST = 0;
 	int interactive = isatty(STDIN_FILENO);
 	(void)ac;
 
-	readCommand(argv[0], interactive);
-	return (0);
+	LExitST = readCommand(argv[0], interactive);
+	return (LExitST);
 }

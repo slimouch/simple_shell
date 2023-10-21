@@ -3,9 +3,10 @@
  * forkAndExecute - fork and execute the command
  * @argC: array of arguments
  * @programName: the program name
- * Return: void
+ * @LExitST: exit status
+ * Return: int
  */
-void forkAndExecute(char **argC, char *programName)
+int forkAndExecute(char **argC, char *programName, int *LExitST)
 {
 	int status;
 	pid_t pid = fork();
@@ -14,18 +15,22 @@ void forkAndExecute(char **argC, char *programName)
 	{
 		perror("fork error");
 		freeTok(argC);
-		exit(EXIT_FAILURE);
+		*LExitST = EXIT_FAILURE;
+		return (-1);
 	}
 	else if (pid == 0)
 	{
-		ChildExecute(argC, programName);
-	} else
+		ChildExecute(argC, programName, LExitST);
+	}
+	else
 	{
 		if (wait(&status) == -1)
 		{
-			perror("wait error");
 			freeTok(argC);
-			exit(EXIT_FAILURE);
+			*LExitST = EXIT_FAILURE;
+			return (-1);
 		}
+		*LExitST = WEXITSTATUS(status);
 	}
+	return (*LExitST);
 }

@@ -3,13 +3,15 @@
  * readCommand - reads the input
  * @programName: the program name
  * @interactive: interactive mode
- * Return: void
+ * Return: int
  */
-void readCommand(char *programName, int interactive)
+int readCommand(char *programName, int interactive)
 {
 	char *bf = NULL;
 	size_t sizeBF = 0;
 	ssize_t NbCh;
+	int result;
+	int LExitST = 0;
 	char **argC = NULL;
 
 	while (1)
@@ -29,14 +31,16 @@ void readCommand(char *programName, int interactive)
 				perror("getline error");
 				free(bf);
 				freeTok(argC);
-				exit(EXIT_FAILURE);
+				LExitST = EXIT_FAILURE;
+				break;
 			}
 		}
 		if (NbCh <= 1)
 			continue;
 		bf[NbCh - 1] = '\0';
-		processCmd(programName, bf, interactive);
+		result = processCmd(programName, bf, interactive, &LExitST);
 	}
 	free(bf);
 	bf = NULL;
+	return (result);
 }

@@ -3,10 +3,12 @@
  * ChildExecute - a function that handles the child process execution
  * @argC: arg array
  * @programName: program name
+ * @LExitST: exit status
  * Return: void
  */
-void ChildExecute(char **argC, char *programName)
+void ChildExecute(char **argC, char *programName, int *LExitST)
 {
+	int result;
 	char *FULLpath = Which(argC[0]);
 
 	if (FULLpath == NULL)
@@ -17,10 +19,12 @@ void ChildExecute(char **argC, char *programName)
 		write(2, ": ", 2);
 		write(2, "not found\n", 10);
 		freeTok(argC);
-		exit(EXIT_FAILURE);
+		*LExitST = EXIT_FAILURE;
+		return;
 	}
 	argC[0] = FULLpath;
-	if (execve(argC[0], argC, environ) == -1)
+	result = execve(argC[0], argC, environ);
+	if (result == -1)
 	{
 		write(2, programName, myStrlen(programName));
 		write(2, ": ", 2);
@@ -29,12 +33,10 @@ void ChildExecute(char **argC, char *programName)
 		write(2, "not found\n", 10);
 		free(FULLpath);
 		freeTok(argC);
+		*LExitST = EXIT_FAILURE;
+	}
+	if (result == -1 || *LExitST == EXIT_FAILURE)
 		exit(EXIT_FAILURE);
-	}
 	else
-	{
-		free(FULLpath);
-		freeTok(argC);
 		exit(EXIT_SUCCESS);
-	}
 }
